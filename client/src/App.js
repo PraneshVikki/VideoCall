@@ -40,13 +40,15 @@ function App() {
       name.current = prompt("what is ur name");
     },[])
     useEffect(() => {
+      socket.connect();
       if (RoomId) {
+
         const mypeer = new Peer();
         mypeer.on('open', (id) => {
           UserId[id] = name;
           socket.emit('join-room', RoomId, id,name.current);
         });
-        socket.connect();
+        
         
       console.log(name.current)
       const addVideo = (video, stream) => {

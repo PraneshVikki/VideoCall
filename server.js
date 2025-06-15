@@ -41,13 +41,14 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
       socket.to(roomId).emit('user-disconnected', userId);
+      socket.leave(roomId);
+      delete usersId[userId];
     });
     socket.on('send-message', (roomId,message) => {
-      console.log(message)
       socket.emit('recive-message', message);
+      console.log(socket.rooms)
     });
     socket.on('send-message-anotherPeer',(name,message)=>{
-      console.log(name,message);
       socket.to(roomId).emit('recive-message-anotherPeer',name, message);
     })
   });
